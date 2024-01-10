@@ -75,5 +75,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(global-tree-sitter-mode t)
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+;; Can add these lines below to automatically have tree sitter highlighting
+;; when downloading new grammars, can just use the ones that this repo uses: https://github.com/renzmann/treesit-auto/blob/main/treesit-auto.el
+;; (global-tree-sitter-mode t)
+;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
