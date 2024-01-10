@@ -79,3 +79,7 @@
 ;; when downloading new grammars, can just use the ones that this repo uses: https://github.com/renzmann/treesit-auto/blob/main/treesit-auto.el
 ;; (global-tree-sitter-mode t)
 ;; (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+(setq!
+ projectile-project-search-path '("~/code/")
+ )
