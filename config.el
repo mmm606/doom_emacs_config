@@ -74,3 +74,6 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(global-tree-sitter-mode t)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
