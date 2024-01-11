@@ -83,3 +83,8 @@
 (setq!
  projectile-project-search-path '("~/code/")
  )
+
+(setq! doom-leader-key "C-SPC"
+       doom-localleader-key "C-SPC m"
+       doom-leader-alt-key "C-M-SPC"
+       doom-localleader-alt-key "C-M-SPC m")
