@@ -1,17 +1,96 @@
 
 ;; for examples look here: https://github.com/doomemacs/doomemacs/blob/develop/modules/config/default/%2Bemacs-bindings.el
+;; (defun mish/new-version-or-fallback (new fallback &rest and-args)
+  ;; "Return NEW if all functions in AND-ARGS return true, otherwise return FALLBACK."
+  ;; (if (cl-every
+       ;; (lambda (curr_list)
+         ;; (let (
+               ;; (func (car curr_list))
+               ;; (args (cdr curr_list)))
+           ;; (if (featurep (func))
+               ;; (funcall func args)
+             ;; nil)))
+       ;; and-args)
+      ;; new
+    ;; fallback))
+
+;; (defun mish/lsp-mode-new-version-or-fallback (new fallback &rest and-args)
+  ;; "Return NEW if all functions in AND-ARGS return true, otherwise return FALLBACK."
+    ;; (message "hello")
+  ;; (let (
+        ;; (and-args (cons '(featurep 'lsp-mode) and-args))
+        ;; )
+    ;; (message "hello")
+    ;; (message "and-args: %S" and-args)
+    ;; (if (cl-every
+         ;; (lambda (curr_list)
+           ;; (let (
+                 ;; (func (car curr_list))
+                 ;; (args (cdr curr_list))
+                 ;; )
+             ;; (funcall func args)
+             ;; )
+           ;; )
+         ;; and-args)
+        ;; new
+      ;; fallback
+      ;; )
+    ;; )
+  ;; )
+
+(defun mish/lsp-mode-new-version-or-fallback (new fallback &rest and-args)
+  "Return NEW if all functions in AND-ARGS return true, otherwise return FALLBACK."
+  (if (and
+       (featurep 'lsp-mode)
+       (cl-every
+        (lambda (curr_list)
+          (let (
+                (func (car curr_list))
+                (args (cdr curr_list))
+                )
+            (funcall func args)
+            )
+          )
+        and-args)
+       )
+      (progn
+        (message "I chose the new one")
+        new
+        )
+    (message "I chose the fallback one")
+    fallback
+    ;; new
+    ;; fallback
+    )
+  )
 
 (map!
  :leader
  :prefix "c"
- :desc "Jump to references" "r" #'+lookup/references
+ :desc "Jump to references" "r"  #'+lookup/references
  :desc "LSP Rename" "R" #'lsp-rename
- :desc "Jump to documentation" "D" #'+lookup/documentation
- :desc "" "k" nil
+ :desc "Jump to definition" "d" (mish/lsp-mode-new-version-or-fallback #'lsp-ui-peek-find-definitions #'+lookup/documentation '(lsp-feature? "textDocument/definition") '(fboundp 'lsp-ui-peek-find-definitions))
+ ;; :desc "" "k" nil
  :desc "Jump to documentation" "D" #'+lookup/documentation
 )
 
 ;; things wanted in SPC c ...:
+      ;; "Gg" lsp-ui-peek-find-definitions "peek definitions" (and (lsp-feature? "textDocument/definition")
+                                                                ;; (fboundp 'lsp-ui-peek-find-definitions))
+      ;; "Gi" lsp-ui-peek-find-implementation "peek implementations" (and
+                                                                   ;; (fboundp 'lsp-ui-peek-find-implementation)
+                                                                   ;; (lsp-feature? "textDocument/implementation"))
+      ;; "Gr" lsp-ui-peek-find-references "peek references" (and (fboundp 'lsp-ui-peek-find-references)
+                                                              ;; (lsp-feature? "textDocument/references"))
+      ;; "Gs" lsp-ui-peek-find-workspace-symbol "peek workspace symbol" (and (fboundp
+                                                                           ;; 'lsp-ui-peek-find-workspace-symbol)
+                                                                          ;; (lsp-feature? "workspace/symbol")))))
+      ;; "hg" lsp-ui-doc-glance "glance symbol" (and (featurep 'lsp-ui-doc)
+                                                  ;; (lsp-feature? "textDocument/hover"))
+      ;; "gh" lsp-treemacs-call-hierarchy "call hierarchy" (and (lsp-feature? "callHierarchy/incomingCalls")
+      ;; "ga" xref-find-apropos "find symbol in workspace" (lsp-feature? "workspace/symbol")
+      ;; "Tl" lsp-lens-mode "toggle lenses" (lsp-feature? "textDocument/codeLens")
+      ;; "Td" lsp-ui-doc-mode "toggle documentation popup" (featurep 'lsp-ui-doc)
 ;;
 
 ;; For reference of what lsp-mode can do:
